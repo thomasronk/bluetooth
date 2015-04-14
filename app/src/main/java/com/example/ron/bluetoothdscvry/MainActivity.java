@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,6 +43,10 @@ public class MainActivity extends ActionBarActivity {
     private int port=1200;
     Socket socket = null;
     OutputStream otStream;
+    ListView rssiList;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> rssiValues;
+    rssiHashTable rssiObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,16 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         registerReceiver(receiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
+        
         Button btnStrength = (Button) findViewById(R.id.startDiscovery);
+        rssiList = (ListView)findViewById(R.id.rssiList);
+        rssiObject = new rssiHashTable();
+
+        rssiValues = new ArrayList<String>();
+
+
+        adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, rssiValues);
 
         MyClientTask myClientTask = new MyClientTask(serverIPAddress,port);
         myClientTask.execute();
@@ -55,7 +72,10 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Log.d("Main","Started discovery");
                // BTAdapter.startDiscovery();
+                Intent mapIntent = new Intent(getApplicationContext(),MapActivity.class);
+
                 startTimer();
+                startActivity(mapIntent);
 
                 /*try {
                     otStream = socket.getOutputStream();
@@ -120,9 +140,17 @@ public class MainActivity extends ActionBarActivity {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 int rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI,Short.MIN_VALUE);
-                String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
-                TextView rssi_msg = (TextView) findViewById(R.id.btStrength);
-                rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
+                String rssiSourceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
+
+                Log.d("MainActivity","Updating the hashtable with "+rssiSourceName+rssi);
+                if(rssiSourceName!=null) {
+                    Log.d("MainActivity",rssiSourceName);
+                    rssiObject.updateRssiTable(rssiSourceName, rssi);
+                }
+                else{
+                    Log.d("MainActivity","Null Sourcename detected");
+                }
+
             }
         }
     };

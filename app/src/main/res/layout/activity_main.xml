@@ -6,17 +6,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+    <TextView android:text="realtimeSystem" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:id="@+id/btStrength" />
+
+    <ListView
+        android:id="@+id/rssiList"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+    </ListView>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="StartDiscovery"
         android:id="@+id/startDiscovery"
-        android:layout_below="@+id/btStrength"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-       />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
 
 </RelativeLayout>
