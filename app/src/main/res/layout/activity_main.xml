@@ -8,6 +8,10 @@
 
     <TextView android:text="realtimeSystem" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:id="@+id/btStrength" />
+    <TextView android:text="realtimeSystem2" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/btStrength" android:id="@+id/btStrength2" />
+    <TextView android:text="realtimeSystem3" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/btStrength2" android:id="@+id/btStrength3" />
 
     <ListView
         android:id="@+id/rssiList"

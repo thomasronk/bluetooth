@@ -42,11 +42,10 @@ public class MainActivity extends ActionBarActivity {
     private String serverIPAddress="192.168.0.2";
     private int port=1200;
     Socket socket = null;
-    OutputStream otStream;
-    ListView rssiList;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> rssiValues;
+    OutputStream otStream;TextView btText;
     rssiHashTable rssiObject;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +53,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         registerReceiver(receiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
-        
+
+
         Button btnStrength = (Button) findViewById(R.id.startDiscovery);
-        rssiList = (ListView)findViewById(R.id.rssiList);
         rssiObject = new rssiHashTable();
-
-        rssiValues = new ArrayList<String>();
-
-
-        adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, rssiValues);
-
         MyClientTask myClientTask = new MyClientTask(serverIPAddress,port);
         myClientTask.execute();
 
@@ -74,8 +66,10 @@ public class MainActivity extends ActionBarActivity {
                // BTAdapter.startDiscovery();
                 Intent mapIntent = new Intent(getApplicationContext(),MapActivity.class);
 
+
+                // BTAdapter.startDiscovery();
                 startTimer();
-                startActivity(mapIntent);
+                //startActivity(mapIntent);
 
                 /*try {
                     otStream = socket.getOutputStream();
@@ -99,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
         timer = new Timer();
         initializeTimerTask();
 
-        timer.schedule(timerTask, 1000, 500); //
+        timer.schedule(timerTask, 500, 10); //
 
     }
 
@@ -108,7 +102,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void run() {
                 //Log.d("TimerTask","Rnnings");
-                BTAdapter.startDiscovery();
+               BTAdapter.startDiscovery();
+
             }
         };
     }
@@ -136,21 +131,36 @@ public class MainActivity extends ActionBarActivity {
     private final BroadcastReceiver receiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context context, Intent intent) {
+            TextView btText = (TextView)findViewById(R.id.btStrength);
+            TextView btText2 = (TextView)findViewById(R.id.btStrength2);
+            TextView btText3 = (TextView)findViewById(R.id.btStrength3);
 
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 int rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI,Short.MIN_VALUE);
                 String rssiSourceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
 
-                Log.d("MainActivity","Updating the hashtable with "+rssiSourceName+rssi);
+
                 if(rssiSourceName!=null) {
                     Log.d("MainActivity",rssiSourceName);
+
                     rssiObject.updateRssiTable(rssiSourceName, rssi);
+
+                    if(rssiSourceName.equals("PraveenKumar’s iPhone")) {
+                        btText.setText(rssiSourceName+rssi);
+                    }
+                    else if(rssiSourceName.equals("HMSoft")) {
+                        btText2.setText(rssiSourceName+rssi);
+                    }
+                    else if(rssiSourceName.equals("Riti's iPad")) {
+                        btText3.setText(rssiSourceName+rssi);
+                    }
+
                 }
                 else{
                     Log.d("MainActivity","Null Sourcename detected");
                 }
-
+               // BTAdapter.startDiscovery();
             }
         }
     };

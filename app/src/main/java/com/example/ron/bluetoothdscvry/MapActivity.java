@@ -1,9 +1,15 @@
 package com.example.ron.bluetoothdscvry;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 
 public class MapActivity extends ActionBarActivity {
@@ -12,6 +18,17 @@ public class MapActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.indoor_map);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#CD5C5C"));
+        Bitmap bg = Bitmap.createBitmap(480, 800, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bg);
+        //canvas.drawRect(50, 50, 200, 200, paint);
+        canvas.drawPoint(10,10,paint);
+        //canvas.draw
+        LinearLayout ll = (LinearLayout) findViewById(R.id.rect);
+        ll.setBackgroundDrawable(new BitmapDrawable(bg));
     }
 
 
