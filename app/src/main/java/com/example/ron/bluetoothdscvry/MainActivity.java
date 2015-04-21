@@ -34,7 +34,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends ActionBarActivity {
 
-    private final List<Integer> rssilist = new ArrayList<Integer>();
     private ServerSocket serverSocket;
     public int map_1;
     public int map_2;
@@ -47,9 +46,8 @@ public class MainActivity extends ActionBarActivity {
     Socket socket = null;
     OutputStream otStream;
     TextView btText;
-    rssiHashTable rssiObject;
     rssiHashMap rHMObject;
-    MapActivity mapDraw;
+
     private String TAG = "MAINACTIVITY";
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -101,7 +99,6 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     Log.d(TAG, "Null Sourcename detected");
                 }
-                // BTAdapter.startDiscovery();
             }
         }
     };
@@ -122,9 +119,9 @@ public class MainActivity extends ActionBarActivity {
         registerReceiver(receiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
         Button btnStrength = (Button) findViewById(R.id.startDiscovery);
-        //rssiObject = new rssiHashTable();
+
         rHMObject = new rssiHashMap();
-        mapDraw = new MapActivity();
+
         MyClientTask myClientTask = new MyClientTask(serverIPAddress, port);
 
 
@@ -133,11 +130,6 @@ public class MainActivity extends ActionBarActivity {
         btnStrength.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("Main", "Started discovery");
-                // BTAdapter.startDiscovery();
-                //Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
-
-                //startActivity(mapIntent);
-                // BTAdapter.startDiscovery();
                 startTimer();
 
             }
