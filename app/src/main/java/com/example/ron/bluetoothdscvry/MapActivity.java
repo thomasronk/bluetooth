@@ -1,29 +1,21 @@
 package com.example.ron.bluetoothdscvry;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 
 public class MapActivity extends ActionBarActivity {
-    String TAG = "MAPACTIVITY";
     public ImageView imageview;
     public int map_1;
     public int map_2;
     public int map_3;
     public int map_4;
     public int map_5;
+    String TAG = "MAPACTIVITY";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +28,6 @@ public class MapActivity extends ActionBarActivity {
         map_4 = R.drawable.ecss3_map_4;
         map_5 = R.drawable.ecss3_map_5;
     }
-
 
 
     @Override
@@ -62,10 +53,10 @@ public class MapActivity extends ActionBarActivity {
     }
 
 
-    public void switchImage(int range){
+    public void switchImage(int range) {
         imageview = (ImageView) findViewById(R.id.imageView);
-        Log.d(TAG,"Setting image view");
-        switch (range){
+        Log.d(TAG, "Setting image view");
+        switch (range) {
             case 1:
                 imageview.setImageResource(map_1);
                 break;
