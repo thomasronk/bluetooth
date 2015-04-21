@@ -19,7 +19,7 @@ public class rssiHashTable {
     float[] distances = new float[3];
 
     public rssiHashTable(){
-        Log.d("RssiHashTable","Constructor");
+        Log.d(TAG,"Constructor");
         btSource = new String[]{"HMSource","Ron’s MacBook Pro","Riti"};
         btTable = new Hashtable();
         indoorObject = new indoorCordinates();
@@ -47,7 +47,7 @@ public class rssiHashTable {
         System.out.println("Hashtable entries : ");
 
         while(it.hasNext())
-            Log.d("RssiHashTable",it.next().toString());
+            Log.d(TAG,it.next().toString());
 
     }
 

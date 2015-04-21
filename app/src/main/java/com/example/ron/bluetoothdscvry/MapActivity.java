@@ -7,29 +7,36 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 
 public class MapActivity extends ActionBarActivity {
+    String TAG = "MAPACTIVITY";
+    public ImageView imageview;
+    public int map_1;
+    public int map_2;
+    public int map_3;
+    public int map_4;
+    public int map_5;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.indoor_map);
+        setContentView(R.layout.activity_map);
 
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#CD5C5C"));
-        Bitmap bg = Bitmap.createBitmap(480, 800, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(bg);
-        //canvas.drawRect(50, 50, 200, 200, paint);
-        canvas.drawPoint(10,10,paint);
-        //canvas.draw
-        LinearLayout ll = (LinearLayout) findViewById(R.id.rect);
-        ll.setBackgroundDrawable(new BitmapDrawable(bg));
+        map_1 = R.drawable.ecss3_map_1;
+        map_2 = R.drawable.ecss3_map_2;
+        map_3 = R.drawable.ecss3_map_3;
+        map_4 = R.drawable.ecss3_map_4;
+        map_5 = R.drawable.ecss3_map_5;
     }
+
 
 
     @Override
@@ -52,5 +59,31 @@ public class MapActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void switchImage(int range){
+        imageview = (ImageView) findViewById(R.id.imageView);
+        Log.d(TAG,"Setting image view");
+        switch (range){
+            case 1:
+                imageview.setImageResource(map_1);
+                break;
+            case 2:
+                imageview.setImageResource(map_2);
+                break;
+            case 3:
+                imageview.setImageResource(map_3);
+                break;
+            case 4:
+                imageview.setImageResource(map_4);
+                break;
+            case 5:
+                imageview.setImageResource(map_5);
+                break;
+            default:
+                Log.d("SwitchImage", "Invalid Range in SwitchImage");
+        }
+        imageview.invalidate();
     }
 }

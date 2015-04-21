@@ -12,12 +12,16 @@
         android:layout_height="wrap_content" android:layout_below="@id/btStrength" android:id="@+id/btStrength2" />
     <TextView android:text="realtimeSystem3" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/btStrength2" android:id="@+id/btStrength3" />
+    <TextView android:text="realtimeSystem4" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/btStrength3" android:id="@+id/btStrength4" />
 
-    <ListView
-        android:id="@+id/rssiList"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-    </ListView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btStrength4"
+        android:layout_above="@+id/startDiscovery"
+        android:id="@+id/imageView"
+        android:layout_gravity="left|top"/>
 
     <Button
         android:layout_width="wrap_content"

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +28,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,6 +39,7 @@ import javax.xml.datatype.Duration;
 
 public class MainActivity extends ActionBarActivity {
 
+    private String TAG = "MAINACTIVITY";
     private BluetoothAdapter BTAdapter = BluetoothAdapter.getDefaultAdapter();
     Timer timer;
     TimerTask timerTask;
@@ -44,6 +48,15 @@ public class MainActivity extends ActionBarActivity {
     Socket socket = null;
     OutputStream otStream;TextView btText;
     rssiHashTable rssiObject;
+    rssiHashMap rHMObject;
+    MapActivity mapDraw;
+    private final List<Integer> rssilist = new ArrayList<Integer>();
+    public int map_1;
+    public int map_2;
+    public int map_3;
+    public int map_4;
+    public int map_5;
+    public ImageView imageview;
 
 
 
@@ -51,13 +64,21 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        map_1 = R.drawable.ecss3_map_1;
+        map_2 = R.drawable.ecss3_map_2;
+        map_3 = R.drawable.ecss3_map_3;
+        map_4 = R.drawable.ecss3_map_4;
+        map_5 = R.drawable.ecss3_map_5;
+        imageview = (ImageView) findViewById(R.id.imageView);
         registerReceiver(receiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
-
-
         Button btnStrength = (Button) findViewById(R.id.startDiscovery);
-        rssiObject = new rssiHashTable();
+        //rssiObject = new rssiHashTable();
+        rHMObject  = new rssiHashMap();
+        mapDraw = new MapActivity();
         MyClientTask myClientTask = new MyClientTask(serverIPAddress,port);
+
+
         myClientTask.execute();
 
         btnStrength.setOnClickListener(new View.OnClickListener(){
@@ -66,10 +87,10 @@ public class MainActivity extends ActionBarActivity {
                // BTAdapter.startDiscovery();
                 Intent mapIntent = new Intent(getApplicationContext(),MapActivity.class);
 
-
+                //startActivity(mapIntent);
                 // BTAdapter.startDiscovery();
                 startTimer();
-                //startActivity(mapIntent);
+
 
                 /*try {
                     otStream = socket.getOutputStream();
@@ -134,6 +155,7 @@ public class MainActivity extends ActionBarActivity {
             TextView btText = (TextView)findViewById(R.id.btStrength);
             TextView btText2 = (TextView)findViewById(R.id.btStrength2);
             TextView btText3 = (TextView)findViewById(R.id.btStrength3);
+            TextView btText4 = (TextView)findViewById(R.id.btStrength4);
 
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
@@ -141,10 +163,11 @@ public class MainActivity extends ActionBarActivity {
                 String rssiSourceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
 
 
-                if(rssiSourceName!=null) {
-                    Log.d("MainActivity",rssiSourceName);
 
-                    rssiObject.updateRssiTable(rssiSourceName, rssi);
+                if(rssiSourceName!=null) {
+                    Log.d(TAG,rssiSourceName);
+
+                   // rssiObject.updateRssiTable(rssiSourceName, rssi);
 
                     if(rssiSourceName.equals("PraveenKumar’s iPhone")) {
                         btText.setText(rssiSourceName+rssi);
@@ -155,10 +178,17 @@ public class MainActivity extends ActionBarActivity {
                     else if(rssiSourceName.equals("Riti's iPad")) {
                         btText3.setText(rssiSourceName+rssi);
                     }
+                    else if(rssiSourceName.equals("Ron’s MacBook Pro")) {
+                        btText4.setText(rssiSourceName+rssi);
+                    }
+
+                    rHMObject.updateRssiHashMap(rssiSourceName,rssi);
+                   switchImage(2);
+
 
                 }
                 else{
-                    Log.d("MainActivity","Null Sourcename detected");
+                    Log.d(TAG,"Null Sourcename detected");
                 }
                // BTAdapter.startDiscovery();
             }
@@ -240,5 +270,30 @@ public class MainActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+    }
+
+    public void switchImage(int range){
+        imageview = (ImageView) findViewById(R.id.imageView);
+        Log.d(TAG,"Setting image view");
+        switch (range){
+            case 1:
+                imageview.setImageResource(map_1);
+                break;
+            case 2:
+                imageview.setImageResource(map_2);
+                break;
+            case 3:
+                imageview.setImageResource(map_3);
+                break;
+            case 4:
+                imageview.setImageResource(map_4);
+                break;
+            case 5:
+                imageview.setImageResource(map_5);
+                break;
+            default:
+                Log.d("SwitchImage", "Invalid Range in SwitchImage");
+        }
+        imageview.invalidate();
     }
 }
