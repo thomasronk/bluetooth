@@ -14,15 +14,45 @@ import java.util.TreeMap;
  */
 public class rssiHashMap {
     private String TAG = "RSSIHASHMAP";
-    private HashMap rssiHashMap;
+    private HashMap<String, Integer> rssiHashMap;
     private String[] btSource;
 
     public rssiHashMap() {
         Log.d(TAG, "Constructor");
         btSource = new String[]{"HMSource", "Ron’s MacBook Pro", "Riti's iPad", "PraveenKumar’s iPhone", "Praveens-Ipad"};
-        rssiHashMap = new HashMap();
+        rssiHashMap = new HashMap<>();
         initialiseHashTable();
         printHash();
+
+       // getHighest();
+
+    }
+
+    public String getHighest(){
+        int temp = 0;
+        String str = "";
+
+        Set set = rssiHashMap.entrySet();
+
+        // Get an iterator
+        Iterator i = set.iterator();
+
+        // Display elements
+        while (i.hasNext()) {
+            Map.Entry me = (Map.Entry) i.next();
+            Log.d(TAG, "SortedHashMap");
+            Log.d(TAG, me.getKey() + ": ");
+            Log.d(TAG, me.getValue()+"");
+            if((int)me.getValue() > temp) {
+                temp = (int) me.getValue();
+                str = me.getKey().toString();
+            }
+        }
+
+        return str;
+    }
+
+ /*   public void getHighest() {
         Map sortedMap = sortByValues(rssiHashMap);
 
         Set set = sortedMap.entrySet();
@@ -33,13 +63,13 @@ public class rssiHashMap {
         // Display elements
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
-            System.out.print(me.getKey() + ": ");
-            System.out.println(me.getValue());
+            Log.d(TAG, "SortedHashMap");
+            Log.d(TAG, me.getKey() + ": ");
+            Log.d(TAG, me.getValue()+"");
         }
+    }*/
 
-    }
-
-    public static <K, V extends Comparable<V>> Map<K, V>
+/*    public static <K, V extends Comparable<V>> Map<K, V>
     sortByValues(final Map<K, V> map) {
         Comparator<K> valueComparator =
                 new Comparator<K>() {
@@ -57,18 +87,18 @@ public class rssiHashMap {
                 new TreeMap<K, V>(valueComparator);
         sortedByValues.putAll(map);
         return sortedByValues;
-    }
+    }*/
 
     public void initialiseHashTable() {
         /*for(int i=0;i<btSource.length;i++){
             btTable.put(btSource[i],"0");
         }*/
 
-        rssiHashMap.put(btSource[0], "0");
-        rssiHashMap.put(btSource[1], "0");
-        rssiHashMap.put(btSource[2], "0");
-        rssiHashMap.put(btSource[3], "0");
-        rssiHashMap.put(btSource[4], "0");
+        rssiHashMap.put(btSource[0], 0);
+        rssiHashMap.put(btSource[1], 2);
+        rssiHashMap.put(btSource[2], 4);
+        rssiHashMap.put(btSource[3], 0);
+        rssiHashMap.put(btSource[4], 0);
     }
 
     public void printHash() {

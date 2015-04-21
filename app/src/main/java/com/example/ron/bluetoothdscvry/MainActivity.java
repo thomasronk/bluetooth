@@ -80,6 +80,8 @@ public class MainActivity extends ActionBarActivity {
                     }
 
                     rHMObject.updateRssiHashMap(rssiSourceName, rssi);
+                    String highest = rHMObject.getHighest();
+                    Log.d(TAG, "Higesht = " + highest);
                     switchImage(2);
 
 
@@ -119,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Log.d("Main", "Started discovery");
                 // BTAdapter.startDiscovery();
-                Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
+                //Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
 
                 //startActivity(mapIntent);
                 // BTAdapter.startDiscovery();
