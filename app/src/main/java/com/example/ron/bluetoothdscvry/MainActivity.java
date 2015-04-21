@@ -82,9 +82,22 @@ public class MainActivity extends ActionBarActivity {
                     rHMObject.updateRssiHashMap(rssiSourceName, rssi);
                     String highest = rHMObject.getHighest();
                     Log.d(TAG, "Higesht = " + highest);
-                    switchImage(2);
-
-
+                    switch(highest)
+                    {
+                        case "HMSoft":
+                            switchImage(1);
+                            break;
+                        case "Ron’s MacBook Pro":
+                            switchImage(2);
+                            break;
+                        case "PraveenKumar’s iPhone":
+                            switchImage(3);
+                            break;
+                        case "Riti's iPad":
+                            switchImage(4);
+                        case "Praveens-Ipad":
+                            switchImage(5);
+                    }
                 } else {
                     Log.d(TAG, "Null Sourcename detected");
                 }

@@ -19,7 +19,7 @@ public class rssiHashMap {
 
     public rssiHashMap() {
         Log.d(TAG, "Constructor");
-        btSource = new String[]{"HMSource", "Ron’s MacBook Pro", "Riti's iPad", "PraveenKumar’s iPhone", "Praveens-Ipad"};
+        btSource = new String[]{"HMSoft", "Ron’s MacBook Pro", "Riti's iPad", "PraveenKumar’s iPhone", "Praveens-Ipad"};
         rssiHashMap = new HashMap<>();
         initialiseHashTable();
         printHash();
@@ -29,7 +29,7 @@ public class rssiHashMap {
     }
 
     public String getHighest(){
-        int temp = 0;
+        int temp = Integer.MIN_VALUE;
         String str = "";
 
         Set set = rssiHashMap.entrySet();
@@ -40,9 +40,9 @@ public class rssiHashMap {
         // Display elements
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
-            Log.d(TAG, "SortedHashMap");
+           /* Log.d(TAG, "SortedHashMap");
             Log.d(TAG, me.getKey() + ": ");
-            Log.d(TAG, me.getValue()+"");
+            Log.d(TAG, me.getValue()+"");*/
             if((int)me.getValue() > temp) {
                 temp = (int) me.getValue();
                 str = me.getKey().toString();
@@ -94,11 +94,11 @@ public class rssiHashMap {
             btTable.put(btSource[i],"0");
         }*/
 
-        rssiHashMap.put(btSource[0], 0);
-        rssiHashMap.put(btSource[1], 2);
-        rssiHashMap.put(btSource[2], 4);
-        rssiHashMap.put(btSource[3], 0);
-        rssiHashMap.put(btSource[4], 0);
+        rssiHashMap.put(btSource[0], Integer.MIN_VALUE);
+        rssiHashMap.put(btSource[1], Integer.MIN_VALUE);
+        rssiHashMap.put(btSource[2], Integer.MIN_VALUE);
+        rssiHashMap.put(btSource[3], Integer.MIN_VALUE);
+        rssiHashMap.put(btSource[4], Integer.MIN_VALUE);
     }
 
     public void printHash() {
