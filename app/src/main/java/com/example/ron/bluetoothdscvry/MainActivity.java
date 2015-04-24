@@ -47,6 +47,8 @@ public class MainActivity extends ActionBarActivity {
     OutputStream otStream;
     TextView btText;
     rssiHashMap rHMObject;
+    String rssiSourceName = "";
+            String rssiAddress = "";
 
     private String TAG = "MAINACTIVITY";
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -60,35 +62,44 @@ public class MainActivity extends ActionBarActivity {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 int rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE);
-                String rssiSourceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
+                //String rssiSourceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
+                //String rssiSourceName = intent.getStringExtra();
+                BluetoothDevice btDetails = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                //if(btDetails!=null) {
+                   rssiSourceName= btDetails.getName();
+                   rssiAddress  = btDetails.getAddress();
+                Log.d(TAG,"Source name "+rssiSourceName+ "Mac Address "+rssiAddress);
+
+                //}
+
 
                 if (rssiSourceName != null) {
                     Log.d(TAG, rssiSourceName);
 
                     // rssiObject.updateRssiTable(rssiSourceName, rssi);
 
-                    if (rssiSourceName.equals("PraveenKumar’s iPhone")) {
-                        btText.setText(rssiSourceName + rssi);
-                    } else if (rssiSourceName.equals("HMSoft")) {
-                        btText2.setText(rssiSourceName + rssi);
-                    } else if (rssiSourceName.equals("Riti's iPad")) {
-                        btText3.setText(rssiSourceName + rssi);
-                    } else if (rssiSourceName.equals("Ron’s MacBook Pro")) {
-                        btText4.setText(rssiSourceName + rssi);
+                    if (rssiAddress.equals("AC:FD:EC:5F:9B:F6")) {
+                        btText.setText("Praveen Kumars Iphone" + " "+rssi+" "+rssiAddress);
+                    } else if (rssiAddress.equals("20:15:03:03:07:79")) {
+                        btText2.setText("HC-01" + " "+rssi+" "+rssiAddress);
+                    } else if (rssiAddress.equals("20:15:03:03:20:62")) {
+                        btText3.setText("HC-02" + " "+rssi+" "+rssiAddress);
+                    } else if (rssiAddress.equals("B4:99:4C:71:2B:A9")) {
+                        btText4.setText("HMSOft" + rssi+rssiAddress);
                     }
 
-                    rHMObject.updateRssiHashMap(rssiSourceName, rssi);
+                    rHMObject.updateRssiHashMap(rssiAddress, rssi);
                     String highest = rHMObject.getHighest();
                     Log.d(TAG, "Higesht = " + highest);
                     switch(highest)
                     {
-                        case "HMSoft":
+                        case "AC:FD:EC:5F:9B:F6"://Praveens Iphone
                             switchImage(1);
                             break;
                         case "Ron’s MacBook Pro":
                             switchImage(2);
                             break;
-                        case "PraveenKumar’s iPhone":
+                        case "B4:99:4C:71:2B:A9"://HMSoft
                             switchImage(3);
                             break;
                         case "Riti's iPad":
@@ -151,6 +162,8 @@ public class MainActivity extends ActionBarActivity {
             public void run() {
                 //Log.d("TimerTask","Rnnings");
                 BTAdapter.startDiscovery();
+
+
 
             }
         };
