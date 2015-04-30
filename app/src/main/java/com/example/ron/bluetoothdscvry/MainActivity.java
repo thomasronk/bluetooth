@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
     public int map_4;
     public int map_5;
     public ImageView imageview;
+    boolean sentOpen = false;
     Timer timer;
     TimerTask timerTask;
     Socket socket = null;
@@ -95,18 +96,25 @@ public class MainActivity extends ActionBarActivity {
                     {
                         case "AC:FD:EC:5F:9B:F6"://Praveens Iphone
                             switchImage(1);
+                            sentOpen=false;
                             break;
                         case "20:15:03:03:07:79":
                             switchImage(2);
+                            sentOpen=false;
                             break;
                         case "20:15:03:03:20:62":
                             switchImage(3);
+                            sentOpen=false;
                             break;
                         case "B4:99:4C:71:2B:A9"://hmsoft
                             switchImage(4);
-                            sendToLaunchpad();
+                            if(!sentOpen) {
+                                sendToLaunchpad();
+                                sentOpen=true;
+                            }
                             break;
                         case "90:B9:31:F1:AB:46"://Ritis Ipad
+
                             switchImage(5);
                             break;
                     }
