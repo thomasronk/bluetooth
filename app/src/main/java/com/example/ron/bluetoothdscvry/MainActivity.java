@@ -161,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
         timer = new Timer();
         initializeTimerTask();
 
-        timer.schedule(timerTask, 500, 10); //
+        timer.schedule(timerTask, 500, 500); //
 
     }
 
@@ -210,11 +210,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
