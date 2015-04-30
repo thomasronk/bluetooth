@@ -96,16 +96,19 @@ public class MainActivity extends ActionBarActivity {
                         case "AC:FD:EC:5F:9B:F6"://Praveens Iphone
                             switchImage(1);
                             break;
-                        case "Ron’s MacBook Pro":
+                        case "20:15:03:03:07:79":
                             switchImage(2);
                             break;
-                        case "B4:99:4C:71:2B:A9"://HMSoft
+                        case "20:15:03:03:20:62":
                             switchImage(3);
                             break;
-                        case "Riti's iPad":
+                        case "B4:99:4C:71:2B:A9"://hmsoft
                             switchImage(4);
-                        case "Praveens-Ipad":
+                            sendToLaunchpad();
+                            break;
+                        case "90:B9:31:F1:AB:46"://Ritis Ipad
                             switchImage(5);
+                            break;
                     }
                 } else {
                     Log.d(TAG, "Null Sourcename detected");
@@ -114,8 +117,8 @@ public class MainActivity extends ActionBarActivity {
         }
     };
     private BluetoothAdapter BTAdapter = BluetoothAdapter.getDefaultAdapter();
-    private String serverIPAddress = "192.168.0.2";
-    private int port = 1200;
+    private String serverIPAddress = "172.20.10.4";
+    private int port = 6000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,15 +136,13 @@ public class MainActivity extends ActionBarActivity {
 
         rHMObject = new rssiHashMap();
 
-        MyClientTask myClientTask = new MyClientTask(serverIPAddress, port);
 
-
-        myClientTask.execute();
 
         btnStrength.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("Main", "Started discovery");
                 startTimer();
+
 
             }
         });
@@ -156,14 +157,23 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void sendToLaunchpad(){
+
+            MyClientTask myClientTask = new MyClientTask(serverIPAddress, port);
+
+
+            myClientTask.execute();
+            //serverSocket = new ServerSocket(dstPort);
+
+            // socket = serverSocket.accept();
+    }
+
     public void initializeTimerTask() {
         timerTask = new TimerTask() {
             @Override
             public void run() {
                 //Log.d("TimerTask","Rnnings");
                 BTAdapter.startDiscovery();
-
-
 
             }
         };
@@ -202,7 +212,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG,"onDestroy");
         unregisterReceiver(receiver);
+
+
     }
 
     public void switchImage(int range) {
@@ -223,6 +236,7 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case 5:
                 imageview.setImageResource(map_5);
+
                 break;
             default:
                 Log.d("SwitchImage", "Invalid Range in SwitchImage");
@@ -244,14 +258,9 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-
-
             try {
-
-                serverSocket = new ServerSocket(dstPort);
-
-                socket = serverSocket.accept();
-
+                socket = new Socket(dstAddress,dstPort);
+                Log.d(TAG,"Successfully Connected to socket");
                 OutputStream os = socket.getOutputStream();
                 OutputStreamWriter osw = new OutputStreamWriter(os);
                 BufferedWriter bw = new BufferedWriter(osw);
@@ -262,16 +271,9 @@ public class MainActivity extends ActionBarActivity {
 
                 bw.write(rmessage);
                 bw.flush();
-
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                response = "UnknownHostException: " + e.toString();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
-                response = "IOException: " + e.toString();
-            } finally {
+            }finally{
                 if (socket != null) {
                     try {
                         socket.close();
@@ -290,6 +292,8 @@ public class MainActivity extends ActionBarActivity {
             //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
 
         }
+
+
 
     }
 }

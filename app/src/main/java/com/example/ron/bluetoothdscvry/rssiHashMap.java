@@ -19,7 +19,7 @@ public class rssiHashMap {
 
     public rssiHashMap() {
         Log.d(TAG, "Constructor");
-        btSource = new String[]{"20:15:03:03:20:62", "20:15:03:03:07:79", "Riti's iPad", "AC:FD:EC:5F:9B:F6", "B4:99:4C:71:2B:A9"};
+        btSource = new String[]{"20:15:03:03:20:62", "20:15:03:03:07:79", "90:B9:31:F1:AB:46", "AC:FD:EC:5F:9B:F6", "B4:99:4C:71:2B:A9"};
         rssiHashMap = new HashMap<>();
         initialiseHashTable();
         printHash();
